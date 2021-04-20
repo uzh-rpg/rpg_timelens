@@ -1,6 +1,6 @@
 # High Speed Event and RGB (HS-ERGB) dataset
 
-<img src="assets/hsergb_preview.gif" width="400">
+<img src="assets/hsergb_preview.gif" width="700">
 
 This repository is about the High Speed Event and RGB (HS-ERGB) dataset, used in the 2021 CVPR paper [**TimeLens: Event-based Video Frame Interpolation**](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.pdf) by Stepan Tulyakov*, [Daniel Gehrig*](https://danielgehrig18.github.io/), Stamatios Georgoulis, Julius Erbach, Mathias Gehrig, Yuanyou Li, and [Davide Scaramuzza](http://rpg.ifi.uzh.ch/people_scaramuzza.html).
 
