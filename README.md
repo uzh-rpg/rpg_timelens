@@ -21,8 +21,3 @@ A pdf of the paper is [available here](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.
 
 ### Download
 Download the dataset from our [project page](http://rpg.ifi.uzh.ch/timelens).
-
-### Paper Video
-Check out our paper on YouTube
-
-[<img src="assets/timelens_yt_thumbnail_icon.png" width="500">](https://youtu.be/TRffu8fqL6k)
