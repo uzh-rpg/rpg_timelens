@@ -52,21 +52,21 @@ Each `events_aligned` folder contains events in the form of several files with t
 
 For a quick test on loading the dataset download the dataset to a folder using the link sent by email.
 
-  wget download_link.zip -O /tmp/dataset.zip
-  cd /tmp
-  unzip /tmp/dataset.zip
-  cd hsergb/
+    wget download_link.zip -O /tmp/dataset.zip
+    cd /tmp
+    unzip /tmp/dataset.zip
+    cd hsergb/
   
 Then download this repo
 
-  git clone git@github.com:uzh-rpg/rpg_hs_ergb_dataset.git
+    git clone git@github.com:uzh-rpg/rpg_hs_ergb_dataset.git
   
 And run the test
 
-  python rpg_hs_ergb_dataset/test_loader.py --dataset_root . \ 
-                                            --dataset_type close \ 
-                                            --sequence spinning_umbrella \ 
-                                            --sample_index 400
-                        
+    python rpg_hs_ergb_dataset/test_loader.py --dataset_root . \ 
+                                              --dataset_type close \ 
+                                              --sequence spinning_umbrella \ 
+                                              --sample_index 400
+
 
   
