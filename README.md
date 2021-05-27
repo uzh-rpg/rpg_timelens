@@ -21,3 +21,52 @@ A pdf of the paper is [available here](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.
 
 ### Download
 Download the dataset from our [project page](http://rpg.ifi.uzh.ch/timelens).
+
+### Dataset Structure
+The dataset structure is as follows
+
+```
+.
+├── close
+│   └── test
+│       ├── baloon_popping
+│       │   ├── events_aligned
+│       │   └── images_corrected
+│       ├── candle
+│       │   ├── events_aligned
+│       │   └── images_corrected
+│       ...
+│
+└── far
+    └── test
+        ├── bridge_lake_01
+        │   ├── events_aligned
+        │   └── images_corrected
+        ├── bridge_lake_03
+        │   ├── events_aligned
+        │   └── images_corrected
+        ...
+
+```
+Each `events_aligned` folder contains events in the form of several files with template filename `%06d.npz`, and `images_corrected` contains images in the form of several files with template filename `%06d.png`. The `events_aligned` each event file with index `n` contains events between images with index `n-1` and `n`, i.e. event file `000001.npz` contains events between images `000000.png` and `000001.png`. Moreover, `images_corrected` also contains `timestamp.txt` where image timestamps are stored. Note that some folders may contain too many images, however, the number of image stamps in `timestamp.txt` should match.
+
+For a quick test on loading the dataset download the dataset to a folder using the link sent by email.
+
+  wget download_link.zip -O /tmp/dataset.zip
+  cd /tmp
+  unzip /tmp/dataset.zip
+  cd hsergb/
+  
+Then download this repo
+
+  git clone git@github.com:uzh-rpg/rpg_hs_ergb_dataset.git
+  
+And run the test
+
+  python rpg_hs_ergb_dataset/test_loader.py --dataset_root . \ 
+                                            --dataset_type close \ 
+                                            --sequence spinning_umbrella \ 
+                                            --sample_index 400
+                        
+
+  
