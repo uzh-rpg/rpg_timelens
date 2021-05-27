@@ -48,9 +48,9 @@ The dataset structure is as follows
         ...
 
 ```
-Each `events_aligned` folder contains events in the form of several files with template filename `%06d.npz`, and `images_corrected` contains images in the form of several files with template filename `%06d.png`. The `events_aligned` each event file with index `n` contains events between images with index `n-1` and `n`, i.e. event file `000001.npz` contains events between images `000000.png` and `000001.png`. Moreover, `images_corrected` also contains `timestamp.txt` where image timestamps are stored. Note that some folders may contain too many images, however, the number of image stamps in `timestamp.txt` should match.
+Each `events_aligned` folder contains events files with template filename `%06d.npz`, and `images_corrected` contains image files with template filename `%06d.png`. In `events_aligned` each event file with index `n` contains events between images with index `n-1` and `n`, i.e. event file `000001.npz` contains events between images `000000.png` and `000001.png`. Moreover, `images_corrected` also contains `timestamp.txt` where image timestamps are stored. Note that in some folders there are more image files than event files. However, the image stamps in `timestamp.txt` should match with the event files and the additional images can be ignored.
 
-For a quick test on loading the dataset download the dataset to a folder using the link sent by email.
+For a quick test download the dataset to a folder using the link sent by email.
 
     wget download_link.zip -O /tmp/dataset.zip
     cd /tmp
@@ -67,6 +67,8 @@ And run the test
                                               --dataset_type close \ 
                                               --sequence spinning_umbrella \ 
                                               --sample_index 400
+                                              
+This should open a window visualizing aligned events with a single image.
 
 
   
