@@ -1,10 +1,15 @@
-# High Speed Event and RGB (HS-ERGB) dataset
+# TimeLens: Event-based Video Frame Interpolation
 
-<img src="assets/hsergb_preview.gif" width="700">
+<p align="center">
+  <a href="https://youtu.be/dVLyia-ezvo">
+    <img src="assets/timelens_yt_thumbnail_icon.png" alt="TimeLens" width="500"/>
+  </a>
+</p>
 
 This repository is about the High Speed Event and RGB (HS-ERGB) dataset, used in the 2021 CVPR paper [**TimeLens: Event-based Video Frame Interpolation**](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.pdf) by Stepan Tulyakov*, [Daniel Gehrig*](https://danielgehrig18.github.io/), Stamatios Georgoulis, Julius Erbach, Mathias Gehrig, Yuanyou Li, and [Davide Scaramuzza](http://rpg.ifi.uzh.ch/people_scaramuzza.html).
 
 For more information, visit our [project page](http://rpg.ifi.uzh.ch/timelens).
+
 
 ### Citation
 A pdf of the paper is [available here](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.pdf). If you use this dataset, please cite this publication as follows:
@@ -19,11 +24,59 @@ A pdf of the paper is [available here](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.
 }
 ```
 
-### Download
-Download the dataset from our [project page](http://rpg.ifi.uzh.ch/timelens).
+## Gallery
+For more examples, visit our [project page](http://rpg.ifi.uzh.ch/timelens).
+![coke](assets/coke.gif)
+![paprika](assets/paprika.gif)
+![pouring](assets/pouring.gif)
+![water_bomb_floor](assets/water_bomb_floor.gif)
 
-### Dataset Structure
-The dataset structure is as follows
+## Installation
+Install the dependencies with 
+
+    cuda_version=10.2
+    conda create -y -n timelens python=3.7
+    conda activate timelens
+    conda install -y pytorch torchvision cudatoolkit=$cuda_version -c pytorch
+    conda install -y -c conda-forge opencv scipy tqdm click
+
+## Test TimeLens
+First start by cloning this repo into a new folder
+
+    mkdir ~/timelens/
+    cd ~/timelens
+    git clone https://github.com/uzh-rpg/rpg_timelens
+
+Then download the checkpoint and data to the repo
+
+    cd rpg_timelens
+    wget http://rpg.ifi.uzh.ch/timelens/data/checkpoint.bin
+    wget http://rpg.ifi.uzh.ch/timelens/data/example_github.zip
+    unzip example_github.zip 
+    rm -rf example_github.zip
+
+### Running Timelens
+To run timelens simply call 
+
+    skip=0
+    insert=7
+    python -m timelens.run_timelens checkpoint.bin example/events example/images example/output $skip $insert
+
+This will generate the output in `example/output`. 
+The first four variables are the checkpoint file, image folder and event folder and output folder respectively.
+The variables `skip` and `insert` determine the number of skipped vs. inserted frames, i.e. to generate a 
+video with an 8 higher framerate, 7 frames need to be inserted, and 0 skipped.
+
+The resulting images can be converted to a video with 
+
+    ffmpeg -i example/output/%06d.png timelens.mp4
+
+the resulting video is `timelens.mp4`.
+
+## Dataset
+![hsergb](assets/hsergb_preview.gif)
+
+Download the dataset from our [project page](http://rpg.ifi.uzh.ch/timelens). The dataset structure is as follows
 
 ```
 .
@@ -53,22 +106,13 @@ Each `events_aligned` folder contains events files with template filename `%06d.
 For a quick test download the dataset to a folder using the link sent by email.
 
     wget download_link.zip -O /tmp/dataset.zip
-    cd /tmp
-    unzip /tmp/dataset.zip
-    cd hsergb/
-  
-Then download this repo
+    unzip /tmp/dataset.zip -d hsergb/
 
-    git clone git@github.com:uzh-rpg/rpg_hs_ergb_dataset.git
-  
 And run the test
 
-    python rpg_hs_ergb_dataset/test_loader.py --dataset_root . \ 
-                                              --dataset_type close \ 
-                                              --sequence spinning_umbrella \ 
-                                              --sample_index 400
+    python test_loader.py --dataset_root hsergb/ \ 
+                          --dataset_type close \ 
+                          --sequence spinning_umbrella \ 
+                          --sample_index 400
                                               
 This should open a window visualizing aligned events with a single image.
-
-
-  
