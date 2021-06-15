@@ -60,6 +60,23 @@ class RefineWarp(warp_network.Warp, fusion_network.Fusion):
             after_residual,
         )
 
+
+    def run_fast(self, example):
+        warp_network.Warp.run_and_pack_to_example(self, example)
+        fusion_network.Fusion.run_and_pack_to_example(self, example)
+        residual = self.flow_refinement_network(
+            _pack_for_residual_flow_computation(example)
+        )
+        (after_residual, before_residual) = th.chunk(residual, 2, dim=1)
+        residual = th.cat([after_residual, before_residual], dim=0)
+        refined, _ = warp.backwarp_2d(
+            source=_pack_images_for_second_warping(example),
+            y_displacement=residual[:, 0, ...],
+            x_displacement=residual[:, 1, ...],
+        )
+
+        return th.chunk(refined, 2)
+
     def run_and_pack_to_example(self, example):
         _pack_output_to_example(example, self.run_refine_warp(example))
 

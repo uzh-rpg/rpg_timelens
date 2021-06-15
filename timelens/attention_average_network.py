@@ -37,6 +37,22 @@ class AttentionAverage(refine_warp_network.RefineWarp):
         self.flow_refinement_network = unet.UNet(9, 4, False)
         self.attention_network = unet.UNet(14, 3, False)
 
+    def run_fast(self, example):
+        example['middle']['before_refined_warped'], \
+        example['middle']['after_refined_warped'] = refine_warp_network.RefineWarp.run_fast(self, example)
+
+        attention_scores = self.attention_network(
+            _pack_input_for_attention_computation(example)
+        )
+        attention = F.softmax(attention_scores, dim=1)
+        average = _compute_weighted_average(
+            attention,
+            example['middle']['before_refined_warped'],
+            example['middle']['after_refined_warped'],
+            example['middle']['fusion']
+        )
+        return average, attention
+
     def run_attention_averaging(self, example):
         refine_warp_network.RefineWarp.run_and_pack_to_example(self, example)
         attention_scores = self.attention_network(

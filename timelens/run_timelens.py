@@ -4,6 +4,7 @@ import click
 import numpy as np
 import sys
 from os.path import dirname, join
+import torch
 
 sys.path.append(dirname(dirname(__file__)))
 import torch as th
@@ -58,9 +59,12 @@ def _interpolate(
             example = transformers.apply_transforms(example, transform_list)
             example = transformers.collate([example])
             example = pytorch_tools.move_tensors_to_cuda(example)
-            network.run_and_pack_to_example(example)
+
+            with torch.no_grad():
+                frame, _ = network.run_fast(example)
+    
             interpolated = th.clamp(
-                example["middle"]["attention_average"].squeeze().cpu().detach(), 0, 1,
+                frame.squeeze().cpu().detach(), 0, 1,
             )
             output_frames.append(transforms.ToPILImage()(interpolated))
             output_frames[-1].save(join(output_folder, "{:06d}.png".format(counter)))
@@ -123,6 +127,7 @@ def run_recursively(
         )
         print("Processing {}".format(leaf_output_folder))
         os.makedirs(leaf_output_folder, exist_ok=True)
+
         output_frames, output_timestamps = _interpolate(
             network,
             transform_list,
