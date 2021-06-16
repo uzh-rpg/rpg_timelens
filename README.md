@@ -28,6 +28,7 @@ A Google Colab notebook is now available [here](TimeLens.ipynb). You can upsampl
 
 ## Gallery
 For more examples, visit our [project page](http://rpg.ifi.uzh.ch/timelens).
+
 ![coke](assets/coke.gif)
 ![paprika](assets/paprika.gif)
 ![pouring](assets/pouring.gif)
