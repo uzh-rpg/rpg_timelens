@@ -23,6 +23,8 @@ A pdf of the paper is [available here](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.
   year          = 2021,
 }
 ```
+## Google Colab
+A Google Colab notebook is now available [here](TimeLens.ipnb). You can upsample your own video and events from you gdrive. 
 
 ## Gallery
 For more examples, visit our [project page](http://rpg.ifi.uzh.ch/timelens).
