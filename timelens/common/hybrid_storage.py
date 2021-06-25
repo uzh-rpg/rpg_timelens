@@ -36,7 +36,7 @@ class HybridStorage(object):
         )
 
     @classmethod
-    def from_folders(
+    def from_folders_jit(
             cls,
             event_folder,
             image_folder,
@@ -51,6 +51,30 @@ class HybridStorage(object):
             timestamps_file=timestamps_file
         )
         events = event.EventJITSequence.from_folder(
+            folder=event_folder,
+            image_height=images._height,
+            image_width=images._width,
+            event_file_template=event_file_template
+        )
+
+        return cls(images, events)
+
+    @classmethod
+    def from_folders(
+            cls,
+            event_folder,
+            image_folder,
+            event_file_template="{:06d}.npz",
+            image_file_template="{:06d}.png",
+            cropping_data=None,
+            timestamps_file="timestamp.txt"
+    ):
+        images = image_sequence.ImageSequence.from_folder(
+            folder=image_folder,
+            image_file_template=image_file_template,
+            timestamps_file=timestamps_file
+        )
+        events = event.EventSequence.from_folder(
             folder=event_folder,
             image_height=images._height,
             image_width=images._width,

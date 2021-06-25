@@ -86,13 +86,13 @@ class EventJITSequence(object):
         for start_timestamp, end_timestamp in zip(timestamps[:-1], timestamps[1:]):
             events = []
             #search for first event
-            while curbuf[-1,2] < start_timestamp:
+            while not len(curbuf) or curbuf[-1,2] < start_timestamp:
                 curbuf = next(ev_seq_iter)
             start_index = np.searchsorted(curbuf[:,2], start_timestamp, side='right')
             events.append(curbuf[start_index:])
             curbuf = next(ev_seq_iter)
             #search for last event
-            while curbuf[-1,2] < end_timestamp:
+            while not len(curbuf) or curbuf[-1,2] < end_timestamp:
                 events.append(curbuf)
                 curbuf = next(ev_seq_iter)
             #cut to last events
