@@ -19,6 +19,14 @@ class HybridStorage(object):
             iter(self._images._timestamps), number_of_skips
         )
 
+    def make_pair_boundary_timestamps_iterator(self, number_of_skips):
+        return iterator_modifiers.make_iterator_over_groups(
+            iterator_modifiers.make_skip_iterator(
+                iter(self._images._timestamps), number_of_skips
+            ),
+            2,
+        )
+
     def make_boundary_frames_iterator(self, number_of_skips):
         return iterator_modifiers.make_iterator_over_groups(
             iterator_modifiers.make_skip_iterator(
@@ -42,7 +50,7 @@ class HybridStorage(object):
             image_file_template=image_file_template,
             timestamps_file=timestamps_file
         )
-        events = event.EventSequence.from_folder(
+        events = event.EventJITSequence.from_folder(
             folder=event_folder,
             image_height=images._height,
             image_width=images._width,

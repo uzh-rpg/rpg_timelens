@@ -11,6 +11,21 @@ from timelens.common import iterator_modifiers
 import tqdm
 
 
+class ImageJITReader(object):
+    """Reads Image Just-in-Time"""
+    def __init__(self, filenames):
+        self.filenames = filenames
+
+    def __len__(self):
+        return len(self.filenames)
+
+    def __getitem__(self, index):
+        f = self.filenames[index]
+        img = Image.open(f).convert("RGB")
+        return img
+
+
+
 class ImageSequence(object):
     """Class that provides access to image sequences."""
 
@@ -28,10 +43,10 @@ class ImageSequence(object):
         timestamps = list(iterator_modifiers.make_skip_and_repeat_iterator(
             iter(self._timestamps), number_of_skips, number_of_frames_to_insert))
         return ImageSequence(images, timestamps)
-        
+
     def make_frame_iterator(self, number_of_skips):
         return iter(self._images)
-    
+
     def to_folder(self, folder, file_template="{:06d}.png", timestamps_file="timestamp.txt"):
         """Save images to image files"""
         folder = os.path.abspath(folder)
@@ -63,17 +78,9 @@ class ImageSequence(object):
             os.path.join(folder, image_file_template)
         )
         filenames = [f for f in filename_iterator]
-        #filenames = filenames[300:]
-        images = []
-        for f in tqdm.tqdm(filenames):
-            images += [Image.open(f).convert("RGB")]
 
-        timestamps = [
-            float(number.split(" ")[-1])
-            for number in os_tools.file_to_list(os.path.join(folder, timestamps_file))
-        ]
-
-        #timestamps = timestamps[300:]
+        images = ImageJITReader(filenames)
+        timestamps = np.loadtxt(os.path.join(folder, timestamps_file)).tolist()
 
         return cls(images, timestamps)
 
