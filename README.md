@@ -53,8 +53,8 @@ First start by cloning this repo into a new folder
 Then download the checkpoint and data to the repo
 
     cd rpg_timelens
-    wget http://rpg.ifi.uzh.ch/timelens/data2/checkpoint.bin
-    wget http://rpg.ifi.uzh.ch/timelens/data2/example_github.zip
+    wget http://download.ifi.uzh.ch/rpg/web/data/timelens/data2/checkpoint.bin
+    wget http://download.ifi.uzh.ch/rpg/web/data/timelens/data2/example_github.zip
     unzip example_github.zip 
     rm -rf example_github.zip
 
