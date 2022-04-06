@@ -6,7 +6,7 @@
   </a>
 </p>
 
-This repository is about the High Speed Event and RGB (HS-ERGB) dataset, used in the 2021 CVPR paper [**TimeLens: Event-based Video Frame Interpolation**](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.pdf) by Stepan Tulyakov*, [Daniel Gehrig*](https://danielgehrig18.github.io/), Stamatios Georgoulis, Julius Erbach, Mathias Gehrig, Yuanyou Li, and [Davide Scaramuzza](http://rpg.ifi.uzh.ch/people_scaramuzza.html).
+This repository is about the High Speed Event and RGB (HS-ERGB) dataset, used in the 2021 CVPR paper [**TimeLens: Event-based Video Frame Interpolation**](http://rpg.ifi.uzh.ch/docs/CVPR21_Gehrig.pdf) by Stepan Tulyakov*, [Daniel Gehrig*](https://danielgehrig18.github.io/), Stamatios Georgoulis, Julius Erbach, [Mathias Gehrig](https://magehrig.github.io/), Yuanyou Li, and [Davide Scaramuzza](http://rpg.ifi.uzh.ch/people_scaramuzza.html).
 
 For more information, visit our [project page](http://rpg.ifi.uzh.ch/timelens).
 
