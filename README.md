@@ -104,7 +104,9 @@ Download the dataset from our [project page](http://rpg.ifi.uzh.ch/timelens). Th
         ...
 
 ```
-Each `events_aligned` folder contains events files with template filename `%06d.npz`, and `images_corrected` contains image files with template filename `%06d.png`. In `events_aligned` each event file with index `n` contains events between images with index `n-1` and `n`, i.e. event file `000001.npz` contains events between images `000000.png` and `000001.png`. Moreover, `images_corrected` also contains `timestamp.txt` where image timestamps are stored. Note that in some folders there are more image files than event files. However, the image stamps in `timestamp.txt` should match with the event files and the additional images can be ignored.
+Each `events_aligned` folder contains events files with template filename `%06d.npz`, and `images_corrected` contains image files with template filename `%06d.png`. In `events_aligned` each event file with index `n` contains events between images with index `n-1` and `n`, i.e. event file `000001.npz` contains events between images `000000.png` and `000001.png`. Each event file contains keys for the x,y,t, and p event component. Note that x and y need to be divided by 32 before use. This is because they actually correspond to remapped events, which have floating point coordinates.
+
+Moreover, `images_corrected` also contains `timestamp.txt` where image timestamps are stored. Note that in some folders there are more image files than event files. However, the image stamps in `timestamp.txt` should match with the event files and the additional images can be ignored.
 
 For a quick test download the dataset to a folder using the link sent by email.
 
