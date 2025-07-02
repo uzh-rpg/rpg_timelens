@@ -73,13 +73,6 @@ class EventJITSequenceIterator(object):
             yield features
 
 
-class EventJITSequence(object):
-    """JIT File Sequential Reader"""
-    def __init__(self, filenames, height, width):
-        self._evseq = EventJITSequenceIterator(filenames)
-        self._image_height = height
-        self._image_width = width
-
     def make_sequential_iterator(self, timestamps):
         ev_seq_iter = iter(self._evseq)
         curbuf = next(ev_seq_iter)
@@ -89,21 +82,29 @@ class EventJITSequence(object):
             while not len(curbuf) or curbuf[-1,2] < start_timestamp:
                 curbuf = next(ev_seq_iter)
             start_index = np.searchsorted(curbuf[:,2], start_timestamp, side='right')
-            events.append(curbuf[start_index:])
-            curbuf = next(ev_seq_iter)
+            lastbuf = curbuf[start_index:] # fix: can't ensure curbuf includes the events of end_timestamp, so save it as lastbuf
+            
             #search for last event
             while not len(curbuf) or curbuf[-1,2] < end_timestamp:
-                events.append(curbuf)
+                events.append(lastbuf)
+                lastbuf = curbuf
                 curbuf = next(ev_seq_iter)
+            
             #cut to last events
             end_index = np.searchsorted(curbuf[:,2], end_timestamp, side='right')
-            events.append(curbuf[:end_index])
+            if curbuf[0, 2] <= start_timestamp: # it means curbuf has been itered during searching
+                events.append(curbuf[start_index :end_index])
+            else: 
+                events.append(curbuf[:end_index])
+            events = np.concatenate((events))
             curbuf = curbuf[end_index:]
-
-            features = np.concatenate(events)
+            
+            if(events.shape[0] != 0):
+                assert (start_timestamp - events[0,2] < 0)
+                assert (end_timestamp - events[-1, 2] >= 0)
 
             yield EventSequence(
-                features=features,
+                features=events,
                 image_height=self._image_height,
                 image_width=self._image_width,
                 start_time=start_timestamp,
